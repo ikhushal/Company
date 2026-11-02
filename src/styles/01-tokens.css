@@ -1,0 +1,88 @@
+/* Design tokens. Every colour, size and spacing value used by the site is
+   defined here. Palette: black, grey and white, as chosen by the client.
+   Contrast ratios are recorded in docs/phase-1-reconciliation.md.
+   Fluid sizes scale linearly between 360px and 1280px viewports. */
+
+:root {
+  /* Colour */
+  --colour-ink: #111417;            /* headings, primary buttons, dark sections   18.5:1 on white */
+  --colour-text: #3b4148;           /* body text                                  10.3:1 on white */
+  --colour-text-muted: #5e656c;     /* captions, hints                             5.9:1 on white */
+  --colour-bg: #ffffff;
+  --colour-subtle: #f3f4f5;         /* alternate section background */
+  --colour-surface: #ffffff;        /* cards, form fields */
+  --colour-primary: #111417;        /* primary action */
+  --colour-primary-hover: #2c3238;
+  --colour-border: #dadde0;         /* decorative dividers and card outlines only */
+  --colour-control-border: #868c92; /* form controls                               3.4:1 on white */
+  --colour-error: #b42318;
+  --colour-success: #1e6b3a;
+  --colour-on-dark: #ffffff;
+  --colour-on-dark-muted: #b7bdc2;  /*                                             9.7:1 on ink */
+  --colour-on-dark-line: rgb(255 255 255 / 0.18);
+
+  /* Typography */
+  --font-sans: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --weight-regular: 400;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+
+  --text-display: clamp(2.375rem, 1.8859rem + 2.1739vw, 3.625rem);
+  --text-h1: clamp(2.125rem, 1.7826rem + 1.5217vw, 3rem);
+  --text-h2: clamp(1.625rem, 1.4293rem + 0.8696vw, 2.125rem);
+  --text-h3: clamp(1.25rem, 1.1522rem + 0.4348vw, 1.5rem);
+  --text-h4: clamp(1.125rem, 1.1005rem + 0.1087vw, 1.1875rem);
+  --text-lead: clamp(1.125rem, 1.0761rem + 0.2174vw, 1.25rem);
+  --text-body: clamp(1rem, 0.9756rem + 0.1087vw, 1.0625rem);
+  --text-small: 0.875rem;
+
+  --leading-tight: 1.1;
+  --leading-heading: 1.25;
+  --leading-body: 1.65;
+
+  --measure: 68ch;
+
+  /* Spacing scale: 4, 8, 12, 16, 24, 32, 48, 64, 80, 96px */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+  --space-8: 4rem;
+  --space-9: 5rem;
+  --space-10: 6rem;
+
+  /* Layout */
+  --container-max: 90rem;
+  --gutter: var(--space-4);
+  --grid-gap: var(--space-4);
+  --section-space: var(--space-7);
+  --card-padding: var(--space-5);
+
+  /* Shape and controls */
+  --radius: 2px;
+  --control-height: 3rem;
+  --control-height-compact: 2.75rem;
+  --focus-width: 2px;
+  --focus-offset: 2px;
+  --shadow-overlay: 0 8px 24px rgb(17 20 23 / 0.14);
+}
+
+@media (min-width: 600px) {
+  :root {
+    --gutter: var(--space-5);
+    --grid-gap: var(--space-5);
+    --section-space: var(--space-8);
+  }
+}
+
+@media (min-width: 1024px) {
+  :root {
+    --gutter: var(--space-6);
+    --grid-gap: var(--space-6);
+    --section-space: var(--space-9);
+    --card-padding: var(--space-6);
+  }
+}

@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% import "_macros.html" as m %}
+
+{% block content %}
+{{ m.page_intro(page, "Contact", "Call, WhatsApp or email, or send a message below. For project details and pricing, request a quote and attach any drawings.") }}
+
+<section class="section" aria-label="Contact options">
+  <div class="container split split--form">
+    <div class="flow">
+      {% if forms.enquiry_endpoint or not production %}
+      <h2 class="h3-size">Send a message</h2>
+      {{ m.form_preview_note() }}
+      {{ m.form_shell_start("contact") }}
+        <div class="form__row">
+          <div class="field">
+            <label class="label" for="contact-name">Your name</label>
+            <input class="input" id="contact-name" name="name" type="text" autocomplete="name" maxlength="200" required
+                   data-error-required="Enter your name">
+          </div>
+          <div class="field">
+            <label class="label" for="contact-phone">Telephone <span class="optional">(optional)</span></label>
+            <input class="input" id="contact-phone" name="phone" type="tel" autocomplete="tel" maxlength="40">
+          </div>
+        </div>
+        <div class="field">
+          <label class="label" for="contact-email">Email address</label>
+          <input class="input" id="contact-email" name="email" type="email" autocomplete="email" spellcheck="false" maxlength="254" required
+                 data-error-required="Enter your email address"
+                 data-error-invalid="Enter an email address in the correct format, like name@example.com">
+        </div>
+        <div class="field">
+          <label class="label" for="contact-message">Message</label>
+          <textarea class="textarea" id="contact-message" name="message" rows="6" maxlength="5000" required
+                    data-error-required="Enter your message"></textarea>
+        </div>
+        {{ m.marketing_consent() }}
+      {{ m.form_shell_end("Send message") }}
+      {% else %}
+      <div class="panel">
+        <h2>Email us</h2>
+        <p>Send your message to <a href="mailto:{{ contact.email }}">{{ contact.email }}</a>, or <a href="/request-a-quote/">request a quote</a> with your project details.</p>
+      </div>
+      {% endif %}
+    </div>
+
+    <aside class="flow" aria-labelledby="direct-title">
+      <h2 class="h3-size" id="direct-title">Contact us directly</h2>
+      {{ m.contact_options(include_office=True) }}
+      <dl class="contact-list">
+        <div>
+          <dt>Areas covered</dt>
+          <dd>{{ service_area }}</dd>
+        </div>
+        {% if contact.hours %}
+        <div>
+          <dt>Hours</dt>
+          {% for line in contact.hours %}
+          <dd>{{ line }}</dd>
+          {% endfor %}
+        </div>
+        {% endif %}
+      </dl>
+      <p><a class="button button--secondary" href="/request-a-quote/">Request a quote</a></p>
+    </aside>
+  </div>
+</section>
+{% endblock %}

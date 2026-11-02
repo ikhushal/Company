@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% import "_macros.html" as m %}
+
+{% block content %}
+{{ m.page_intro(page, "Privacy notice", "How Whitestone Civil Engineering Ltd uses personal information collected through this website and when you contact us.") }}
+
+<section class="section">
+  <div class="container prose flow">
+    <div class="note">
+      <p>[[Draft privacy notice. The company must confirm the details marked below, and it should be checked by someone with data protection knowledge before launch.]]</p>
+    </div>
+
+    <h2>Who we are</h2>
+    <p>{{ company.legal_name }} (company number {{ company.number }}, registered in {{ company.registered_in }}) is the controller of the personal information described in this notice. Our registered office is {{ company.registered_office }}.</p>
+    <p>For any question about this notice or your information, email <a href="mailto:{{ contact.email }}">{{ contact.email }}</a>.</p>
+
+    <h2>What we collect</h2>
+    <p><strong>Quote requests:</strong> your name, company name (if given), email address, telephone number, the services you are interested in, the project location and description, your expected start date and budget (if given), and any files you attach, such as drawings, specifications or photographs.</p>
+    <p><strong>Contact messages:</strong> your name, email address, telephone number (if given) and your message.</p>
+    <p><strong>Newsletter:</strong> your email address, if you subscribe or tick the updates box on a form.</p>
+    <p><strong>Job enquiries:</strong> the CV and information you choose to send us by email.</p>
+    <p><strong>Calls, WhatsApp and email:</strong> the information you share with us, including any attachments.</p>
+    <p>Please do not send sensitive personal information, such as health details, as we do not need it.</p>
+
+    <h2>How we use it and why</h2>
+    <ul>
+      <li>To respond to your enquiry and prepare a quote: steps you have asked us to take before entering into a contract.</li>
+      <li>To carry out and administer work you instruct us to do: performance of our contract with you.</li>
+      <li>To send occasional news and updates: your consent, which you can withdraw at any time using the unsubscribe link in each email or by emailing us.</li>
+      <li>To consider you for future roles: our legitimate interest in recruiting, and you can ask us to delete your CV at any time.</li>
+    </ul>
+    <p>[[Confirm these lawful bases]]</p>
+
+    <h2>Who we share it with</h2>
+    <p>We use service providers to host this website, deliver form messages and send our newsletter: [[website hosting provider]], [[form delivery provider]] and [[newsletter provider]]. They process information only on our instructions. WhatsApp messages are handled by WhatsApp under its own terms.</p>
+    <p>[[Whether any information is transferred outside the UK, and the safeguards used]]</p>
+    <p>We do not sell your information.</p>
+
+    <h2>How long we keep it</h2>
+    <p>[[Retention periods: enquiries that do not proceed, client project records, newsletter subscriptions and CVs]]</p>
+
+    <h2>Cookies and website statistics</h2>
+    <p>See our <a href="/cookies/">cookie information</a>.</p>
+
+    <h2>Your rights</h2>
+    <p>You have the right to ask for a copy of your information, and to ask us to correct, delete or restrict it. You can also object to how we use it, withdraw consent you have given, and in some cases ask us to transfer it. To make a request, email <a href="mailto:{{ contact.email }}">{{ contact.email }}</a>.</p>
+    <p>If you are unhappy with how we have handled your information, you can complain to the <a href="https://ico.org.uk/make-a-complaint/">Information Commissioner’s Office</a>. We would appreciate the chance to resolve your concern first.</p>
+
+    <h2>Changes to this notice</h2>
+    <p>Last updated: [[date of publication]].</p>
+  </div>
+</section>
+{% endblock %}

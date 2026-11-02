@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% import "_macros.html" as m %}
+
+{% block content %}
+{{ m.page_intro(page, "Cookie information", "How this website uses cookies and similar technologies.") }}
+
+<section class="section">
+  <div class="container prose flow">
+    <h2>Cookies</h2>
+    <p>This website does not use cookies for advertising or tracking, and its own code does not store information on your device. [[Confirm whether the hosting provider sets any strictly necessary cookies, for example for security]]</p>
+
+    <h2>Website statistics</h2>
+    {% if analytics.script_src %}
+    <p>We use a privacy-focused statistics service that counts visits and pages viewed without using cookies and without identifying you. We use these figures only to improve the website. [[Name the statistics provider and confirm it does not use cookies or similar storage]]</p>
+    {% else %}
+    <p>We do not currently collect website statistics.</p>
+    {% endif %}
+
+    <h2>Links to other services</h2>
+    <p>Links to WhatsApp, Google Maps and other websites take you to services that have their own cookie and privacy policies. Nothing from those services is loaded on this website until you follow a link.</p>
+
+    <h2>Questions</h2>
+    <p>Email <a href="mailto:{{ contact.email }}">{{ contact.email }}</a>. Our <a href="/privacy/">privacy notice</a> explains how we use personal information.</p>
+  </div>
+</section>
+{% endblock %}

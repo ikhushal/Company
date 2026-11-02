@@ -1,0 +1,25 @@
+<header class="site-header">
+  <div class="container site-header__inner">
+    <a class="wordmark" href="/" aria-label="Whitestone Civil Engineering home">
+      {% if logo %}
+      <img class="wordmark__logo" src="/assets/img/{{ logo.file }}" width="{{ logo.width }}" height="{{ logo.height }}" alt="">
+      {% else %}
+      <span class="wordmark__name">Whitestone</span>
+      <span class="wordmark__descriptor">Civil Engineering</span>
+      {% endif %}
+    </a>
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
+      <svg class="nav-toggle__icon nav-toggle__icon--open" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M1 3.5h14M1 8h14M1 12.5h14" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
+      <svg class="nav-toggle__icon nav-toggle__icon--close" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M3 3l10 10M13 3L3 13" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
+      <span class="nav-toggle__label">Menu</span>
+    </button>
+    <nav class="site-nav" id="site-nav" aria-label="Main">
+      <ul class="site-nav__list">
+        {% for item in nav %}
+        <li><a href="{{ item.path }}"{% if page.path == item.path %} aria-current="page"{% elif page.section == item.path %} class="is-active"{% endif %}>{{ item.label }}</a></li>
+        {% endfor %}
+      </ul>
+      <a class="button button--primary button--compact site-nav__cta" href="/request-a-quote/">Request a quote</a>
+    </nav>
+  </div>
+</header>

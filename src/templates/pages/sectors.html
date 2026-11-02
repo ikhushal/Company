@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% import "_macros.html" as m %}
+
+{% block content %}
+{{ m.page_intro(page, "Sectors", "We work with homeowners, property developers and house builders, and other engineering firms, on small and medium-sized projects across England.") }}
+
+{% for sector in sectors %}
+<section class="section{% if loop.index is even %} section--subtle{% endif %}" id="{{ sector.key }}" aria-labelledby="{{ sector.key }}-title">
+  <div class="container sidehead">
+    <h2 id="{{ sector.key }}-title">{{ sector.name }}</h2>
+    <div class="flow">
+      <p class="lead">{{ sector.summary }}</p>
+      {% if sector.key == "homeowners" %}
+      <p>Most home projects that change the structure need calculations for Building Regulations approval, even when planning permission is not required. We design the beams, foundations and other structural elements, produce the drawings your builder needs, and can estimate the likely cost before you ask builders to quote.</p>
+      {% elif sector.key == "developers" %}
+      <p>Early cost and structural advice helps you decide whether a scheme works before committing to detailed design. We provide feasibility estimates, structural design for new-build houses and conversions, and drawing packages and quantities for tendering, scaled to the size of the project.</p>
+      {% else %}
+      <p>When your own team is at capacity, we provide AutoCAD drafting, structural design support and quantity surveying on a subcontract basis. We work to your drawing standards and deadlines, and you deal directly with the engineer doing the work.</p>
+      {% endif %}
+      <h3 class="h4-size">Relevant services</h3>
+      <ul class="tags">
+        {% for key in sector.services %}
+        <li><a href="{{ services_by_key[key].path }}">{{ services_by_key[key].name }}</a></li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+</section>
+{% endfor %}
+
+{% include "partials/enquiry-band.html" %}
+{% endblock %}

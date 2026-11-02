@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% import "_macros.html" as m %}
+
+{% block content %}
+{{ m.page_intro(page, "Structural design", "Structural calculations and drawings for residential and small-to-medium building projects, prepared for your builder to work from and for Building Regulations approval.") }}
+
+<section class="section" aria-labelledby="design-title">
+  <div class="container split split--media">
+    <div class="flow">
+      <h2 id="design-title">What we design</h2>
+      <ul>
+        <li>Steel and timber beams for new openings and removed load-bearing walls</li>
+        <li>Single- and two-storey extensions</li>
+        <li>Loft conversions: floor structure, beams and roof alterations</li>
+        <li>Foundations for extensions and new buildings</li>
+        <li>New-build houses and small residential developments</li>
+        <li>Alterations to existing buildings</li>
+      </ul>
+      <p>Designs are prepared to the current Eurocodes and their UK National Annexes.</p>
+    </div>
+    {{ m.frame_figure("light") }}
+  </div>
+</section>
+
+<section class="section section--subtle" aria-labelledby="receive-title">
+  <div class="container">
+    <div class="section-header">
+      <h2 id="receive-title">What you receive</h2>
+      <p>Your quote lists exactly what is included. A typical structural design package contains:</p>
+    </div>
+    <div class="grid grid--3">
+      <article class="card">
+        <h3>Structural calculations</h3>
+        <p>The design basis, loads and checks for each element, with member sizes and specifications, set out so building control can follow them.</p>
+      </article>
+      <article class="card">
+        <h3>Structural drawings</h3>
+        <p>AutoCAD drawings showing beam, column and foundation positions, sizes, bearings and connection details for your builder.</p>
+      </article>
+      <article class="card">
+        <h3>Answers to building control</h3>
+        <p>We respond to questions from building control about our design, and revise it if they ask for changes.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="section" aria-labelledby="need-title">
+  <div class="container split split--even">
+    <div class="flow">
+      <h2 id="need-title">What we need from you</h2>
+      <ul>
+        <li>Existing drawings or a measured survey of the property, if you have one</li>
+        <li>Proposed drawings from your architect or designer, or sketches with dimensions</li>
+        <li>Photographs of the area affected, inside and out</li>
+        <li>The property address or postcode</li>
+        <li>Any ground investigation or trial-hole information, for foundation design</li>
+      </ul>
+      <p>If you do not have drawings, we can prepare them: see <a href="/services/autocad-plans/">AutoCAD plans</a>.</p>
+    </div>
+    <div class="flow">
+      <h2>Approvals and responsibilities</h2>
+      <p>Structural calculations and drawings are normally submitted to building control, either your local authority or a registered building control approver. We prepare our information for that submission; the approval decision rests with the building control body.</p>
+      <p>Planning permission and party wall matters are separate from structural design and are not included unless agreed in writing. We do not carry out construction work. Where a site visit is needed, we agree it in the quote.</p>
+    </div>
+  </div>
+</section>
+
+{{ m.cta_band("Request a structural design quote", "Send your drawings, photographs and a short description of the work. We will confirm what is needed and send a written quote.", "Request a quote", "/request-a-quote/?service=structural-design") }}
+{% endblock %}

@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+{% import "_macros.html" as m %}
+
+{% block content %}
+{{ m.page_intro(page, "Quantity surveying", "Construction cost estimates, material take-offs and Bills of Quantities for property developers, homeowners and house builders. Measured from drawings, with the assumptions written down.") }}
+
+<section class="section" aria-labelledby="prepare-title">
+  <div class="container split">
+    <div class="flow">
+      <h2 id="prepare-title">What we prepare</h2>
+      <dl class="definitions">
+        <div>
+          <dt>Budget estimates</dt>
+          <dd>An early view of likely cost, used to set a budget or test whether a scheme is viable before detailed design.</dd>
+        </div>
+        <div>
+          <dt>Detailed cost estimates</dt>
+          <dd>Measured from drawings and broken down by building element, with labour and materials shown separately.</dd>
+        </div>
+        <div>
+          <dt>Material quantity take-offs</dt>
+          <dd>Measured quantities of materials for ordering, pricing or checking a supplier’s figures.</dd>
+        </div>
+        <div>
+          <dt>Bills of Quantities</dt>
+          <dd>Itemised quantities for tendering, so every builder prices the same work and quotes can be compared fairly.</dd>
+        </div>
+        <div>
+          <dt>Cost comparisons</dt>
+          <dd>Comparing options, such as two layouts or two specifications, or checking received quotes against an estimate.</dd>
+        </div>
+      </dl>
+    </div>
+    <aside class="panel" aria-labelledby="need-title">
+      <h2 class="h3-size" id="need-title">What we need from you</h2>
+      <ul>
+        <li>Drawings of the proposed work, or sketches with dimensions</li>
+        <li>Any specification or finishes information</li>
+        <li>The project location, as prices vary by region</li>
+        <li>What is in and out of scope</li>
+        <li>Your intended timescale</li>
+      </ul>
+      <p>If information is missing, the estimate lists the assumptions made in its place.</p>
+    </aside>
+  </div>
+</section>
+
+<section class="section section--subtle" aria-labelledby="receive-title">
+  <div class="container split split--table">
+    <div class="flow">
+      <h2 id="receive-title">What you receive</h2>
+      <p>Each estimate is a document you can check, not a single figure. It sets out:</p>
+      <ul>
+        <li>the drawings and information it is based on</li>
+        <li>measured quantities, grouped by building element</li>
+        <li>rates and totals for labour and materials</li>
+        <li>assumptions, exclusions and provisional sums</li>
+        <li>items that need input from other professionals</li>
+      </ul>
+      <p>Estimates are supplied as PDF.</p>
+    </div>
+    {{ m.quantities_table("qs-quantities", notes=False) }}
+    {{ m.quantities_notes() }}
+  </div>
+</section>
+
+<section class="section" aria-labelledby="limits-title">
+  <div class="container prose flow sidehead">
+    <h2 id="limits-title">An estimate is not a price</h2>
+    <p>An estimate is a reasoned forecast of likely cost, based on the drawings, specification and prices available when it is prepared. It is not a quotation, and it does not guarantee what the work will cost.</p>
+    <p>Final costs depend on the builder you appoint, market conditions, the final specification and what is found once work starts, particularly in existing buildings. A good estimate makes these uncertainties visible rather than hiding them.</p>
+    <p>Each estimate lists its exclusions. Typical examples are VAT, professional and statutory fees, and work by others, but the list depends on the project.</p>
+  </div>
+</section>
+
+{{ m.cta_band("Request a cost estimate", "Send your drawings or a description of the project. We will confirm what information is needed and send a written quote for the estimate.", "Request a quote", "/request-a-quote/?service=quantity-surveying") }}
+{% endblock %}

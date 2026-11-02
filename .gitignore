@@ -1,0 +1,10 @@
+# Build output and local QA screenshots
+dist/
+qa/
+__pycache__/
+.venv/
+
+# Client source documents (private; never publish)
+*.docx
+*.doc
+~$*

@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% import "_macros.html" as m %}
+
+{% block content %}
+{{ m.page_intro(page, "Thank you. Your message has been sent.") }}
+
+<section class="section">
+  <div class="container prose flow">
+    <p>We will reply by email{% if contact.response_time %}, usually {{ contact.response_time }}{% endif %}. If it is urgent, call or WhatsApp {{ contact.phone_display }}.</p>
+    <p><a href="/">Return to the home page</a></p>
+  </div>
+</section>
+{% endblock %}

@@ -1,0 +1,122 @@
+{% extends "base.html" %}
+{% import "_macros.html" as m %}
+
+{% block content %}
+{{ m.page_intro(page, "Request a quote", "Tell us about your project and attach any drawings you have. We will reply with questions or a written quote setting out the scope, fee and timescale.") }}
+
+<section class="section" aria-label="Quote request">
+  <div class="container split split--form">
+    <div>
+      {% if forms.enquiry_endpoint or not production %}
+      {{ m.form_preview_note() }}
+      {{ m.form_shell_start("quote") }}
+        <div class="form__row">
+          <div class="field">
+            <label class="label" for="quote-name">Your name</label>
+            <input class="input" id="quote-name" name="name" type="text" autocomplete="name" maxlength="200" required
+                   data-error-required="Enter your name">
+          </div>
+          <div class="field">
+            <label class="label" for="quote-company">Company name <span class="optional">(optional)</span></label>
+            <input class="input" id="quote-company" name="company" type="text" autocomplete="organization" maxlength="200">
+          </div>
+        </div>
+
+        <div class="form__row">
+          <div class="field">
+            <label class="label" for="quote-email">Email address</label>
+            <input class="input" id="quote-email" name="email" type="email" autocomplete="email" spellcheck="false" maxlength="254" required
+                   data-error-required="Enter your email address"
+                   data-error-invalid="Enter an email address in the correct format, like name@example.com">
+          </div>
+          <div class="field">
+            <label class="label" for="quote-phone">Telephone</label>
+            <input class="input" id="quote-phone" name="phone" type="tel" autocomplete="tel" maxlength="40" required
+                   data-error-required="Enter a telephone number so we can discuss the project">
+          </div>
+        </div>
+
+        <fieldset class="field" data-required data-error-required="Select at least one service, or choose ‘Not sure yet’">
+          <legend class="legend">Which services do you need?</legend>
+          <p class="hint">Select all that apply.</p>
+          <div class="choices">
+            {% for service in services %}
+            <label class="choice"><input type="checkbox" name="service" id="quote-service-{{ service.key }}" value="{{ service.key }}"> {{ service.name }}</label>
+            {% endfor %}
+            <label class="choice"><input type="checkbox" name="service" id="quote-service-not-sure" value="not-sure"> Not sure yet</label>
+          </div>
+        </fieldset>
+
+        <div class="field">
+          <label class="label" for="quote-location">Project location</label>
+          <p class="hint" id="quote-location-hint">Town, or the first part of the postcode, for example E14.</p>
+          <input class="input" id="quote-location" name="location" type="text" maxlength="100" required aria-describedby="quote-location-hint"
+                 data-error-required="Enter the project location">
+        </div>
+
+        <div class="field">
+          <label class="label" for="quote-description">Project description</label>
+          <p class="hint" id="quote-description-hint">What you want to build, change or have drawn or estimated.</p>
+          <textarea class="textarea" id="quote-description" name="description" rows="6" maxlength="5000" required aria-describedby="quote-description-hint"
+                    data-error-required="Describe the project"></textarea>
+        </div>
+
+        <div class="form__row">
+          <div class="field">
+            <label class="label" for="quote-start">Expected start date <span class="optional">(optional)</span></label>
+            <select class="select" id="quote-start" name="start_date">
+              <option value="">Select</option>
+              <option>As soon as possible</option>
+              <option>Within 1 month</option>
+              <option>In 1 to 3 months</option>
+              <option>In 3 to 6 months</option>
+              <option>More than 6 months away</option>
+              <option>Not sure yet</option>
+            </select>
+          </div>
+          <div class="field">
+            <label class="label" for="quote-budget">Approximate project budget <span class="optional">(optional)</span></label>
+            <select class="select" id="quote-budget" name="budget">
+              <option value="">Select</option>
+              <option>Under £25,000</option>
+              <option>£25,000 to £100,000</option>
+              <option>£100,000 to £500,000</option>
+              <option>Over £500,000</option>
+              <option>Prefer not to say</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="label" for="quote-files">Drawings, specifications or documents <span class="optional">(optional)</span></label>
+          <p class="hint" id="quote-files-hint">PDF, DWG, DXF, JPG or PNG. Up to {{ forms.max_upload_mb }} MB in total. Larger files can be sent once we reply.</p>
+          <input class="file-input" id="quote-files" name="attachments" type="file" multiple
+                 accept=".pdf,.dwg,.dxf,.jpg,.jpeg,.png,application/pdf,image/jpeg,image/png"
+                 aria-describedby="quote-files-hint" data-max-mb="{{ forms.max_upload_mb }}"
+                 data-error-size="The files are larger than {{ forms.max_upload_mb }} MB in total. Remove some, or send them once we reply"
+                 data-error-type="Attach PDF, DWG, DXF, JPG or PNG files only">
+        </div>
+
+        {{ m.marketing_consent() }}
+      {{ m.form_shell_end("Send quote request") }}
+      {% else %}
+      <div class="panel">
+        <h2>Send your quote request</h2>
+        <p>Email a short description of the project, its location and any drawings to <a href="mailto:{{ contact.email }}">{{ contact.email }}</a>, or call or WhatsApp {{ contact.phone_display }}.</p>
+      </div>
+      {% endif %}
+    </div>
+
+    <aside class="flow" aria-labelledby="next-title">
+      <h2 class="h3-size" id="next-title">What happens next</h2>
+      <ol>
+        <li>We read your request and check it is work we can help with.</li>
+        <li>We reply with any questions about the project.</li>
+        <li>We send a written quote. Nothing is charged until you accept it.</li>
+      </ol>
+      <h2 class="h3-size">Prefer to talk?</h2>
+      {{ m.contact_options() }}
+    </aside>
+  </div>
+</section>
+{% endblock %}
