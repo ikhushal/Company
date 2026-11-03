@@ -11,7 +11,7 @@ The site is generated from Jinja templates by a small Python script and outputs 
 ## Requirements
 
 - Python 3.10 or later
-- Jinja2 (`pip install -r requirements.txt`)
+- Jinja2 (`pip install -r requirements/build.txt`)
 
 ## Commands
 
@@ -32,6 +32,7 @@ Run `build.py` then `check.py` before every deployment.
 build.py                 Pages, navigation, services and sectors data, and the build
 check.py                 Quality checks on dist/
 site.config.json         Business facts and settings (see below)
+requirements/build.txt   Python dependency (kept out of the repo root: see Deployment)
 vercel.json              Deployment settings and security headers (generated; do not edit by hand)
 scripts/                 Asset generators
 src/
@@ -99,7 +100,7 @@ The success, validation, upload and failure behaviour has been tested in a brows
 
 `vercel.json` tells Vercel how to build the site:
 
-- **Install:** `python3 -m pip install --disable-pip-version-check -r requirements.txt`
+- **Install:** `python3 -m pip install -r requirements/build.txt`
 - **Build:** `python3 build.py`
 - **Output:** `dist/`
 
@@ -109,7 +110,7 @@ To connect the repository, go to [vercel.com/new](https://vercel.com/new), impor
 
 Vercel does not read `dist/_headers` (that file is for Netlify and Cloudflare Pages), so the same headers are declared in `vercel.json`.
 
-If a Vercel build fails because Python or pip is missing, set the Python version in Project Settings → General.
+The dependency file lives at `requirements/build.txt`, **not** in the repo root. A root `requirements.txt` makes Vercel treat the project as a Python web application and fail the build looking for a server entrypoint (`PYTHON_ENTRYPOINT_NOT_FOUND`). `"framework": null` guards against the same thing.
 
 ### Other hosts
 

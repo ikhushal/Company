@@ -400,7 +400,13 @@ def vercel_config(config: dict) -> dict:
     immutable = [{"key": "Cache-Control", "value": "public, max-age=31536000, immutable"}]
     return {
         "$schema": "https://openapi.vercel.sh/vercel.json",
-        "installCommand": "python3 -m pip install --disable-pip-version-check -r requirements.txt",
+        # "framework": null and keeping no requirements.txt at the repo root both stop
+        # Vercel treating this as a Python web app and hunting for a server entrypoint.
+        "framework": None,
+        "installCommand": (
+            "python3 -m ensurepip --default-pip || true"
+            " && python3 -m pip install --disable-pip-version-check -r requirements/build.txt"
+        ),
         "buildCommand": "python3 build.py",
         "outputDirectory": "dist",
         "trailingSlash": True,
