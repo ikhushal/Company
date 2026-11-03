@@ -54,6 +54,8 @@ const nextConfig: NextConfig = {
   trailingSlash: true,
   poweredByHeader: false,
   reactStrictMode: true,
+  // Keep the dev badge clear of the preview pill (bottom left).
+  devIndicators: { position: "bottom-right" },
   async headers() {
     return [{ source: "/:path*", headers: securityHeaders }];
   },

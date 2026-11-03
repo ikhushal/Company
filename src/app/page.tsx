@@ -3,6 +3,7 @@ import { ArrowIcon, Icon, type IconName } from "@/components/Icon";
 import { IsoFrame } from "@/components/illustrations/IsoFrame";
 import { ServiceIllustration } from "@/components/illustrations/ServiceIllustration";
 import { Parallax } from "@/components/Parallax";
+import { PhoneLink } from "@/components/PhoneLink";
 import { QuantitiesTable } from "@/components/QuantitiesTable";
 import { CtaBlock, Faq, Marquee, SectionHead } from "@/components/Sections";
 import { Tabs } from "@/components/Tabs";
@@ -10,7 +11,7 @@ import { principles, processSteps } from "@/content/company";
 import { commonFaq } from "@/content/faq";
 import { sectors } from "@/content/sectors";
 import { serviceBySlug, services } from "@/content/services";
-import { links, site } from "@/content/site";
+import { site } from "@/content/site";
 import s from "./home.module.css";
 
 export const metadata = { alternates: { canonical: "/" } };
@@ -99,10 +100,7 @@ export default function HomePage() {
                 Request a quote
                 <ArrowIcon />
               </Link>
-              <a href={links.tel} className="btn btn--ghost-dark">
-                <Icon name="phone" />
-                Call {site.contact.phoneDisplay}
-              </a>
+              <PhoneLink className="btn btn--ghost-dark" label={`Call ${site.contact.phoneDisplay}`} />
             </div>
             <p className={s.credential}>
               <span className={s.badge}>{site.founder.membershipShort}</span>

@@ -4,6 +4,7 @@ import { endpoints, isProduction, links, site } from "@/content/site";
 import { ArrowIcon, Icon } from "./Icon";
 import { Logo } from "./Logo";
 import { NewsletterForm } from "./NewsletterForm";
+import { PhoneLink } from "./PhoneLink";
 import styles from "./Footer.module.css";
 
 export function Footer() {
@@ -54,7 +55,7 @@ export function Footer() {
             <h2 className={styles.heading}>Contact</h2>
             <ul className={styles.contact}>
               <li>
-                <a href={links.tel}><Icon name="phone" />{contact.phoneDisplay}</a>
+                <PhoneLink />
               </li>
               <li>
                 <a href={links.whatsapp} rel="noopener"><Icon name="whatsapp" />WhatsApp</a>

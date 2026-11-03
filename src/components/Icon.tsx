@@ -1,11 +1,15 @@
 import type { SVGProps } from "react";
 
+/** Path data shared with PhoneLink, which renders its icons as HTML strings. */
+export const iconPathData = {
+  phone: "M6.6 3h3l1.5 4.5-2.2 1.4a11 11 0 0 0 6.2 6.2l1.4-2.2L21 14.4v3A2.6 2.6 0 0 1 18.4 20C10.5 19.5 4.5 13.5 4 5.6A2.6 2.6 0 0 1 6.6 3z",
+  "arrow-up-right": "M7 17 17 7M8 7h9v9",
+};
+
 const paths = {
   "arrow-right": <path d="M5 12h14M13 6l6 6-6 6" />,
-  "arrow-up-right": <path d="M7 17 17 7M8 7h9v9" />,
-  phone: (
-    <path d="M6.6 3h3l1.5 4.5-2.2 1.4a11 11 0 0 0 6.2 6.2l1.4-2.2L21 14.4v3A2.6 2.6 0 0 1 18.4 20C10.5 19.5 4.5 13.5 4 5.6A2.6 2.6 0 0 1 6.6 3z" />
-  ),
+  "arrow-up-right": <path d={iconPathData["arrow-up-right"]} />,
+  phone: <path d={iconPathData.phone} />,
   whatsapp: (
     <>
       <path d="M4.5 19.5l1.2-3.6A8 8 0 1 1 8.4 18.6z" />

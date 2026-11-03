@@ -5,6 +5,7 @@ import type { FaqItem } from "@/content/faq";
 import { links, site } from "@/content/site";
 import { ArrowIcon, Icon } from "./Icon";
 import { IsoFrame } from "./illustrations/IsoFrame";
+import { escapeHtml, iconHtml, PhoneLink } from "./PhoneLink";
 import styles from "./Sections.module.css";
 
 /* Inner page hero ------------------------------------------------------- */
@@ -152,10 +153,7 @@ export function CtaBlock({
               <Icon name="whatsapp" />
               WhatsApp
             </a>
-            <a href={links.tel} className="btn btn--ghost-dark">
-              <Icon name="phone" />
-              {site.contact.phoneDisplay}
-            </a>
+            <PhoneLink className="btn btn--ghost-dark" />
           </div>
         </div>
       </div>
@@ -167,8 +165,12 @@ export function CtaBlock({
 
 export function ContactOptions({ includeOffice = false }: { includeOffice?: boolean }) {
   const { contact, company } = site;
+  const phoneInner =
+    `<span class="${styles.optionIcon}">${iconHtml("phone")}</span>` +
+    `<span class="${styles.optionText}"><span class="${styles.optionLabel}">Call</span>` +
+    `<span class="${styles.optionValue}">${escapeHtml(contact.phoneDisplay)}</span></span>` +
+    iconHtml("arrow-up-right", styles.optionArrow);
   const items = [
-    { icon: "phone" as const, label: "Call", value: contact.phoneDisplay, href: links.tel },
     { icon: "whatsapp" as const, label: "WhatsApp", value: `Message ${contact.phoneDisplay}`, href: links.whatsapp, external: true },
     { icon: "mail" as const, label: "Email", value: contact.email, href: links.email },
     ...(includeOffice
@@ -177,6 +179,9 @@ export function ContactOptions({ includeOffice = false }: { includeOffice?: bool
   ];
   return (
     <ul className={styles.options}>
+      <li>
+        <PhoneLink className={styles.option} inner={phoneInner} />
+      </li>
       {items.map((item) => (
         <li key={item.label}>
           <a className={styles.option} href={item.href} rel={item.external ? "noopener" : undefined}>

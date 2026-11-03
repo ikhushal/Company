@@ -6,6 +6,7 @@ import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { links, nav, site } from "@/content/site";
 import { ArrowIcon, Icon } from "./Icon";
 import { Logo } from "./Logo";
+import { PhoneLink } from "./PhoneLink";
 import styles from "./Header.module.css";
 
 export function Header() {
@@ -63,10 +64,7 @@ export function Header() {
         </nav>
 
         <div className={styles.actions}>
-          <a className={styles.phone} href={links.tel}>
-            <Icon name="phone" />
-            <span>{site.contact.phoneDisplay}</span>
-          </a>
+          <PhoneLink className={styles.phone} wrapLabel />
           <Link href="/request-a-quote/" className={`btn btn--sm ${solid ? "btn--primary" : "btn--light"} ${styles.cta}`}>
             Request a quote
             <ArrowIcon />
@@ -103,10 +101,7 @@ export function Header() {
             Request a quote
             <ArrowIcon />
           </Link>
-          <a className="btn btn--ghost-dark" href={links.tel}>
-            <Icon name="phone" />
-            {site.contact.phoneDisplay}
-          </a>
+          <PhoneLink className="btn btn--ghost-dark" />
           <a className="btn btn--ghost-dark" href={links.whatsapp} rel="noopener">
             <Icon name="whatsapp" />
             WhatsApp
