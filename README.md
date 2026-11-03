@@ -100,7 +100,7 @@ The success, validation, upload and failure behaviour has been tested in a brows
 
 `vercel.json` tells Vercel how to build the site:
 
-- **Install:** `python3 -m pip install -r requirements/build.txt`
+- **Install:** pip with `--break-system-packages`, falling back to `uv`, from `requirements/build.txt`
 - **Build:** `python3 build.py`
 - **Output:** `dist/`
 
@@ -111,6 +111,8 @@ To connect the repository, go to [vercel.com/new](https://vercel.com/new), impor
 Vercel does not read `dist/_headers` (that file is for Netlify and Cloudflare Pages), so the same headers are declared in `vercel.json`.
 
 The dependency file lives at `requirements/build.txt`, **not** in the repo root. A root `requirements.txt` makes Vercel treat the project as a Python web application and fail the build looking for a server entrypoint (`PYTHON_ENTRYPOINT_NOT_FOUND`). `"framework": null` guards against the same thing.
+
+Vercel's Python is managed by uv and is externally managed (PEP 668), so a plain `pip install` is refused. The install command passes `--break-system-packages`, which is safe in a disposable build container, and falls back to `uv` if pip is ever absent.
 
 ### Other hosts
 

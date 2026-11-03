@@ -1,7 +1,7 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "framework": null,
-  "installCommand": "python3 -m ensurepip --default-pip || true && python3 -m pip install --disable-pip-version-check -r requirements/build.txt",
+  "installCommand": "python3 -m pip install --disable-pip-version-check --break-system-packages -r requirements/build.txt || uv pip install --system -r requirements/build.txt",
   "buildCommand": "python3 build.py",
   "outputDirectory": "dist",
   "trailingSlash": true,

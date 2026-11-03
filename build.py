@@ -403,9 +403,13 @@ def vercel_config(config: dict) -> dict:
         # "framework": null and keeping no requirements.txt at the repo root both stop
         # Vercel treating this as a Python web app and hunting for a server entrypoint.
         "framework": None,
+        # Vercel's Python is uv-managed and externally managed (PEP 668), so a plain
+        # pip install is refused; --break-system-packages is the documented override.
+        # uv is the fallback in case pip is ever absent from the build image.
         "installCommand": (
-            "python3 -m ensurepip --default-pip || true"
-            " && python3 -m pip install --disable-pip-version-check -r requirements/build.txt"
+            "python3 -m pip install --disable-pip-version-check --break-system-packages"
+            " -r requirements/build.txt"
+            " || uv pip install --system -r requirements/build.txt"
         ),
         "buildCommand": "python3 build.py",
         "outputDirectory": "dist",
