@@ -1,0 +1,28 @@
+{
+  "name": "whitestone-civil-engineering",
+  "version": "2.0.0",
+  "private": true,
+  "description": "Website for Whitestone Civil Engineering Ltd: structural design, AutoCAD plans and quantity surveying.",
+  "engines": {
+    "node": ">=20.9.0"
+  },
+  "scripts": {
+    "dev": "next dev",
+    "build": "node scripts/check-launch.mjs && next build",
+    "start": "next start",
+    "check:launch": "node scripts/check-launch.mjs",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "geist": "1.9.0",
+    "next": "16.4.4",
+    "react": "19.3.1",
+    "react-dom": "19.3.1"
+  },
+  "devDependencies": {
+    "@types/node": "24.19.2",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "typescript": "5.9.3"
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "name": "Whitestone Civil Engineering",
+  "shortName": "Whitestone",
+  "url": "https://www.whitestonecivilengineering.co.uk",
+  "domainConfirmed": false,
+  "description": "Civil engineering design consultancy providing structural design, AutoCAD plans and quantity surveying for homeowners, developers and engineering firms.",
+  "company": {
+    "legalName": "Whitestone Civil Engineering Ltd",
+    "number": "17522024",
+    "registeredIn": "England and Wales",
+    "registeredOffice": "Suite 10 Beaufort Court, Admirals Way, London E14 9XL",
+    "incorporated": "14 October 2026",
+    "foundedMonth": "October 2026",
+    "vatNumber": null
+  },
+  "founder": {
+    "name": "Haris Shah Syed",
+    "initials": "HS",
+    "role": "Director and civil engineer",
+    "membership": "Graduate Member of the Institution of Civil Engineers (GMICE)",
+    "membershipShort": "GMICE",
+    "bio": null
+  },
+  "contact": {
+    "email": "whitestone.ce.ltd@outlook.com",
+    "phoneDisplay": "07477 038707",
+    "phoneLink": "+447477038707",
+    "whatsapp": "447477038707",
+    "hours": null,
+    "responseTime": null
+  },
+  "serviceArea": "England, with projects elsewhere in the UK considered",
+  "serviceAreaShort": "England",
+  "social": [],
+  "maxUploadMb": 4,
+  "projects": []
+}

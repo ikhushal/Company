@@ -1,5 +1,15 @@
-# Build output and local QA screenshots
-dist/
+# Dependencies and build output
+node_modules/
+.next/
+out/
+next-env.d.ts
+*.tsbuildinfo
+
+# Local environment (never commit secrets)
+.env*.local
+.env
+
+# Local QA screenshots and Python caches
 qa/
 __pycache__/
 .venv/
@@ -8,3 +18,6 @@ __pycache__/
 *.docx
 *.doc
 ~$*
+
+# Vercel
+.vercel

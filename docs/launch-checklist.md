@@ -4,14 +4,14 @@ Status on 28 October 2026: the site is built and runs as a preview. `python buil
 
 ## 0. Hosting
 
-- [x] Repository configured for Vercel (`vercel.json`: install, build, output and security headers).
-- [ ] Import `ikhushal/Company` at [vercel.com/new](https://vercel.com/new). Each push to `main` then redeploys automatically.
+- [x] Site rebuilt in Next.js (see `phase-2-redesign.md`); Vercel detects it automatically (`vercel.json`: `"framework": "nextjs"`).
+- [ ] Review the Vercel preview deployment of the `nextjs-redesign` branch, then merge it into `main`.
 
-Until section 1 is complete, Vercel builds the **preview** version: it carries `noindex` and `Disallow: /`, so search engines will not list it, and it shows the yellow "To confirm" markers. That makes the `.vercel.app` address a review link to share with the client, not the launched site. To publish the real site, resolve section 1, then change the build command in Vercel to `python3 build.py --production`.
+Until section 1 is complete, the site builds in **preview** mode: `noindex`, `robots.txt` blocks all crawlers, and unconfirmed items are highlighted. To publish the real site, resolve section 1, then set `NEXT_PUBLIC_SITE_MODE=production` and `NEXT_PUBLIC_SITE_URL` in Vercel's environment variables. `npm run build` lists anything still outstanding.
 
 ## 1. Blocks the production build
 
-- [ ] **Domain:** buy `whitestonecivilengineering.co.uk`, connect it to the host, then set `site.domain_confirmed` to `true`.
+- [ ] **Domain:** buy `whitestonecivilengineering.co.uk`, connect it in Vercel → Domains, set `domainConfirmed: true` in `src/content/site.json`, and set `NEXT_PUBLIC_SITE_URL`.
 - [ ] **Privacy notice (`/privacy/`):** name the hosting, form and newsletter providers; confirm the lawful bases, any transfers outside the UK and retention periods; add the publication date; have it checked by someone with data protection knowledge.
 - [ ] **Cookie information (`/cookies/`):** confirm whether the host sets any strictly necessary cookies.
 - [ ] **Accessibility statement (`/accessibility/`):** record the test results, date and method once testing is done.
@@ -20,13 +20,13 @@ Until section 1 is complete, Vercel builds the **preview** version: it carries `
 
 | Feature | What is needed | Until then |
 |---|---|---|
-| Contact and quote forms | A form service (or serverless handler) that emails the company and accepts file uploads up to 10 MB. Set `forms.enquiry_endpoint`. | Live site shows phone, WhatsApp and email instead of forms |
-| Newsletter | A mailing service. Set `forms.newsletter_endpoint`. | Sign-up hidden; the consent tick box still records interest |
-| Analytics | A cookieless analytics service. Set `analytics.script_src`. | No statistics collected |
-| Hero photo | Download a photo from section 6 of `phase-1-reconciliation.md` into `src/assets/photos/hero.jpg`. Set `photos.hero.alt` and `credit`. | Original structural drawing shown |
-| Logo | The client said it was shared, but it has not been received. Save it into `src/assets/img/` and set `logo` in `site.config.json`. | Typographic wordmark |
+| Contact and quote forms | A form service (or serverless handler) that emails the company and accepts file uploads up to 4 MB. Set `NEXT_PUBLIC_ENQUIRY_ENDPOINT`. | Live site shows phone, WhatsApp and email instead of forms |
+| Newsletter | A mailing service. Set `NEXT_PUBLIC_NEWSLETTER_ENDPOINT`. | Sign-up hidden; the consent tick box still records interest |
+| Analytics | A cookieless analytics service. Set `NEXT_PUBLIC_ANALYTICS_SRC` and `NEXT_PUBLIC_ANALYTICS_NAME`. | No statistics collected |
+| Photography | Real project photos, when available, could join the illustrations. Stock imagery is not needed: the design is built around original drawings. | Original illustrations |
+| Logo | The client said it was shared, but it has not been received. Replace `LogoMark` in `src/components/Logo.tsx`. | Temporary I-beam mark |
 | Projects | Title, location, type, role, description, date, and the client's permission, for each project | Honest empty state |
-| Biography | Professional biography for `founder.bio` | Name, role and GMICE only |
+| Biography | Professional biography for `founder.bio` in `site.json` | Name, role and GMICE only |
 | Social links | URLs once the LinkedIn page and other accounts exist | Not shown |
 | Google Business Profile | Create one, using a service area rather than the registered office if clients do not visit it | None |
 | Company email | Optional `info@` address on the new domain. Update `contact.email` if adopted. | Outlook address |
@@ -46,24 +46,12 @@ The client asked the developer to check technical claims (16.5). These statement
 
 ## 4. Quality assurance
 
-**Done on 28 October 2026:**
+The completed checks for the Next.js site are recorded in section 4 of `phase-2-redesign.md`.
 
-- `check.py` passes on all 16 pages: headings, links, alt text, metadata, British spelling, typographic quotes and company-name spelling.
-- No horizontal overflow on any of the 15 content pages at 320, 360, 390 and 768 px.
-- Visual review in Edge:
-  - home at 360, 390 and 1440 px
-  - structural design, request a quote, contact, projects, sectors, about and services at 1440 px
-  - the header at 320 to 768 px
-- Quote form tested against a local mock endpoint:
-  - validation errors, and a wrong-type file rejected
-  - successful submission with a PDF attachment, with all 12 fields received
-  - server failure showing the fallback
-- All colour pairs pass WCAG AA (section 5 of the reconciliation).
+**Still to do before launch:**
 
-**Not yet done:**
-
-- [ ] Screen reader testing (NVDA, VoiceOver) and a keyboard-only walkthrough.
+- [ ] Screen-reader testing (NVDA, VoiceOver) and a full keyboard-only walkthrough.
 - [ ] Zoom to 200% and 400%.
 - [ ] Safari, Firefox and real phones.
-- [ ] Testing the real form endpoint, email delivery and uploads after hosting is chosen.
+- [ ] Test the real form endpoint, email delivery and uploads once a form service is chosen.
 - [ ] Lighthouse / Core Web Vitals on the live host.

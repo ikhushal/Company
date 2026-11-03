@@ -1,0 +1,141 @@
+.footer {
+  position: relative;
+  overflow: hidden;
+  padding-top: var(--s-9);
+  border-top: 1px solid var(--line-dark);
+  font-size: var(--fs-sm);
+}
+
+.top {
+  display: grid;
+  gap: var(--s-7);
+}
+
+.brand {
+  display: grid;
+  align-content: start;
+  gap: var(--s-5);
+  max-width: 26rem;
+}
+
+.heading {
+  margin-bottom: var(--s-4);
+  color: var(--on-dark-faint);
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  font-weight: 500;
+  letter-spacing: var(--tr-mono);
+  text-transform: uppercase;
+}
+
+.col ul {
+  display: grid;
+  gap: var(--s-3);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.col a:not(:global(.btn)) {
+  color: var(--on-dark);
+  text-decoration: none;
+  opacity: 0.85;
+  transition: opacity 200ms;
+}
+
+.col a:not(:global(.btn)):hover {
+  opacity: 1;
+  text-decoration: underline;
+}
+
+.contact a {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-2);
+  overflow-wrap: anywhere;
+}
+
+.contact svg {
+  flex: none;
+  width: 1rem;
+  height: 1rem;
+  opacity: 0.7;
+}
+
+.social {
+  margin-top: var(--s-4) !important;
+}
+
+.quote {
+  margin-top: var(--s-5);
+}
+
+.legal {
+  display: grid;
+  gap: var(--s-3);
+  margin-top: var(--s-8);
+  padding-block: var(--s-5);
+  border-top: 1px solid var(--line-dark);
+  color: var(--on-dark-muted);
+  font-size: var(--fs-xs);
+  line-height: 1.6;
+}
+
+.legal ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-2) var(--s-5);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.legal a {
+  color: var(--on-dark);
+}
+
+.copy {
+  font-family: var(--font-mono);
+}
+
+/* Oversized wordmark, cropped by the bottom edge */
+.wordmark {
+  margin-bottom: -0.2em;
+  padding-inline: var(--gutter);
+  color: var(--ink-3);
+  font-size: clamp(4rem, 0.5rem + 16vw, 18rem);
+  font-weight: 700;
+  letter-spacing: -0.06em;
+  line-height: 0.82;
+  text-align: center;
+  white-space: nowrap;
+  user-select: none;
+  pointer-events: none;
+}
+
+@media (min-width: 720px) {
+  .top {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .brand {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (min-width: 1100px) {
+  .top {
+    grid-template-columns: 1.6fr 1fr 1fr 1.3fr;
+    gap: var(--s-8);
+  }
+
+  .brand {
+    grid-column: auto;
+  }
+
+  .legal {
+    grid-template-columns: 1fr auto auto;
+    align-items: center;
+    gap: var(--s-6);
+  }
+}

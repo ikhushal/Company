@@ -1,0 +1,38 @@
+.form {
+  display: grid;
+  gap: var(--s-2);
+}
+
+.label {
+  color: var(--on-dark);
+  font-weight: 500;
+}
+
+.row {
+  display: flex;
+  gap: var(--s-2);
+}
+
+.row input {
+  flex: 1;
+  min-width: 0;
+  min-height: 2.5rem;
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--line-dark-strong);
+  border-radius: var(--r-pill);
+  background: transparent;
+  color: var(--on-dark);
+}
+
+.row input::placeholder {
+  color: var(--on-dark-faint);
+}
+
+.msg {
+  color: #ffb4ab;
+  font-size: var(--fs-xs);
+}
+
+.done {
+  color: var(--on-dark);
+}

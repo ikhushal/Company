@@ -1,5 +1,7 @@
 # Whitestone Civil Engineering — Phase 1 requirements reconciliation
 
+> **Note, 3 November 2026:** the client's answers and the verified facts below still apply. The technical implementation (Python build, photo instructions) has been replaced by the Next.js site described in `phase-2-redesign.md`.
+
 | | |
 |---|---|
 | **Prepared** | 28 October 2026 |

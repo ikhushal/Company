@@ -1,0 +1,24 @@
+.wrap {
+  display: grid;
+  align-items: center;
+  min-height: 80vh;
+  padding-top: calc(var(--header-h) + var(--s-8));
+  padding-bottom: var(--s-9);
+}
+
+.inner > * + * {
+  margin-top: var(--s-5);
+}
+
+.inner h1 {
+  max-width: 16ch;
+}
+
+.code {
+  color: var(--ink-4);
+  font-family: var(--font-mono);
+  font-size: clamp(6rem, 4rem + 10vw, 14rem);
+  font-weight: 600;
+  letter-spacing: -0.06em;
+  line-height: 0.8;
+}

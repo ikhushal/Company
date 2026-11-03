@@ -1,0 +1,144 @@
+.frame {
+  width: 100%;
+  height: auto;
+  overflow: visible;
+  color: var(--on-dark);
+}
+
+.ground line {
+  stroke: rgb(255 255 255 / 0.22);
+  stroke-width: 0.75;
+  stroke-dasharray: 10 4 2 4;
+}
+
+.bubble circle {
+  fill: var(--ink);
+  stroke: rgb(255 255 255 / 0.45);
+  stroke-width: 1;
+}
+
+.bubble text {
+  fill: var(--on-dark);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  text-anchor: middle;
+}
+
+.pads polygon {
+  fill: none;
+  stroke: rgb(255 255 255 / 0.4);
+  stroke-width: 1;
+  stroke-dasharray: 3 3;
+}
+
+.slabs polygon {
+  fill: rgb(255 255 255 / 0.035);
+  stroke: rgb(255 255 255 / 0.14);
+  stroke-width: 1;
+}
+
+.columns line {
+  stroke: var(--on-dark);
+  stroke-width: 2.25;
+  stroke-linecap: square;
+}
+
+.beams line {
+  stroke: rgb(255 255 255 / 0.82);
+  stroke-width: 1.6;
+  stroke-linecap: square;
+}
+
+.brace line {
+  stroke: rgb(255 255 255 / 0.4);
+  stroke-width: 1;
+}
+
+.hotBeam {
+  stroke: var(--on-dark);
+  stroke-width: 4;
+  stroke-linecap: square;
+}
+
+.levelName {
+  fill: var(--on-dark-muted);
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+}
+
+.leader {
+  stroke: rgb(255 255 255 / 0.3);
+  stroke-width: 0.75;
+}
+
+.datum {
+  fill: none;
+  stroke: var(--on-dark);
+  stroke-width: 1;
+}
+
+.level {
+  fill: var(--on-dark);
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  font-weight: 600;
+}
+
+.dim {
+  fill: var(--on-dark-muted);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  text-anchor: middle;
+}
+
+/* The frame is "built": grid, foundations, columns rise, beams span level by
+   level, bracing draws in, then floors and annotation appear. */
+@media (prefers-reduced-motion: no-preference) {
+  .ground,
+  .pads,
+  .annot,
+  .highlight {
+    animation: fade 900ms var(--ease-out) both;
+  }
+
+  .ground { animation-delay: 100ms; }
+  .pads { animation-delay: 300ms; }
+  .highlight { animation-delay: 2300ms; }
+  .annot { animation-delay: 2500ms; }
+
+  .columns line,
+  .beams line,
+  .brace line {
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+    animation: draw 700ms var(--ease-out) forwards;
+  }
+
+  .columns line { animation-delay: calc(500ms + var(--d)); }
+  .beams line { animation-duration: 600ms; animation-delay: calc(1050ms + var(--d)); }
+  .brace line { animation-duration: 500ms; animation-delay: calc(1900ms + var(--d)); }
+
+  .slabs polygon {
+    animation: fade 900ms var(--ease-out) both;
+    animation-delay: calc(1600ms + var(--d));
+  }
+
+  /* After the build, the highlighted beam breathes gently. */
+  .hotBeam {
+    animation: breathe 3.2s var(--ease-in-out) 3.4s infinite;
+  }
+}
+
+@keyframes draw {
+  to { stroke-dashoffset: 0; }
+}
+
+@keyframes fade {
+  from { opacity: 0; }
+}
+
+@keyframes breathe {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.45; }
+}

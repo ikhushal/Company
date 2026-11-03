@@ -1,0 +1,227 @@
+.header {
+  position: fixed;
+  inset: 0 0 auto;
+  z-index: 50;
+  color: var(--on-dark);
+  transition:
+    background-color 300ms var(--ease-out),
+    border-color 300ms var(--ease-out),
+    color 300ms var(--ease-out),
+    backdrop-filter 300ms var(--ease-out);
+  border-bottom: 1px solid transparent;
+}
+
+.solid {
+  border-bottom-color: var(--line);
+  background: rgb(255 255 255 / 0.86);
+  color: var(--ink);
+  -webkit-backdrop-filter: saturate(180%) blur(14px);
+  backdrop-filter: saturate(180%) blur(14px);
+}
+
+.open {
+  background: var(--ink);
+}
+
+.inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-5);
+  height: var(--header-h);
+}
+
+/* Desktop navigation ----------------------------------------------------- */
+
+.nav {
+  display: none;
+}
+
+.nav ul {
+  display: flex;
+  gap: var(--s-1);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.nav a {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
+  padding: 0 0.875rem;
+  border-radius: var(--r-pill);
+  font-size: 0.9375rem;
+  font-weight: 500;
+  text-decoration: none;
+  opacity: 0.8;
+  transition: opacity 200ms, background-color 200ms;
+}
+
+.nav a:hover {
+  opacity: 1;
+  background: rgb(127 127 127 / 0.12);
+}
+
+.nav a[aria-current="page"] {
+  opacity: 1;
+}
+
+.nav a[aria-current="page"]::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 0.3rem;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: currentColor;
+  transform: translateX(-50%);
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+}
+
+.phone {
+  display: none;
+  align-items: center;
+  gap: var(--s-2);
+  min-height: 2.75rem;
+  font-family: var(--font-mono);
+  font-size: var(--fs-sm);
+  text-decoration: none;
+  opacity: 0.85;
+}
+
+.phone svg {
+  width: 1rem;
+  height: 1rem;
+}
+
+.phone:hover {
+  opacity: 1;
+}
+
+/* Phones get the quote button in the menu and hero instead. */
+.actions .cta {
+  display: none;
+}
+
+.toggle {
+  display: grid;
+  place-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border: 1px solid currentColor;
+  border-radius: var(--r-pill);
+  background: transparent;
+  cursor: pointer;
+  opacity: 0.9;
+}
+
+.toggle svg {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+@media (min-width: 640px) {
+  .actions .cta {
+    display: inline-flex;
+  }
+}
+
+@media (min-width: 1120px) {
+  .nav {
+    display: block;
+  }
+
+  .toggle {
+    display: none;
+  }
+}
+
+@media (min-width: 1320px) {
+  .phone {
+    display: inline-flex;
+  }
+}
+
+/* Mobile menu ------------------------------------------------------------ */
+
+.menu {
+  position: fixed;
+  inset: var(--header-h) 0 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: var(--s-7);
+  padding: var(--s-6) var(--gutter) var(--s-7);
+  overflow-y: auto;
+}
+
+.menuList {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--line-dark);
+}
+
+.menuList li {
+  border-bottom: 1px solid var(--line-dark);
+}
+
+.menuList a {
+  display: flex;
+  align-items: baseline;
+  gap: var(--s-4);
+  padding: var(--s-4) 0;
+  color: var(--on-dark);
+  font-size: clamp(1.75rem, 1.2rem + 3vw, 2.5rem);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  text-decoration: none;
+}
+
+.menuList a[aria-current="page"] {
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 0.18em;
+}
+
+.menuIndex {
+  color: var(--on-dark-faint);
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  font-weight: 500;
+  letter-spacing: var(--tr-mono);
+}
+
+.menuFoot {
+  display: grid;
+  gap: var(--s-3);
+}
+
+@media (min-width: 480px) {
+  .menuFoot {
+    grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .menu:not([hidden]) .menuList li {
+    animation: menu-in 500ms var(--ease-out) both;
+    animation-delay: calc(var(--i) * 45ms + 60ms);
+  }
+}
+
+@keyframes menu-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+}

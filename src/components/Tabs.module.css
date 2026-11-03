@@ -1,0 +1,134 @@
+.tabs {
+  display: grid;
+  gap: var(--s-6);
+}
+
+.list {
+  display: grid;
+  gap: var(--s-2);
+  align-content: start;
+}
+
+.tab {
+  display: flex;
+  align-items: center;
+  gap: var(--s-4);
+  width: 100%;
+  min-height: 3.5rem;
+  padding: var(--s-4) var(--s-5);
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  background: var(--paper);
+  color: var(--ink);
+  font-size: 1.0625rem;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  text-align: left;
+  cursor: pointer;
+  transition:
+    background-color 250ms var(--ease-out),
+    border-color 250ms var(--ease-out),
+    color 250ms var(--ease-out),
+    transform 250ms var(--ease-out);
+}
+
+.tab:hover {
+  border-color: var(--ink);
+}
+
+.tab[aria-selected="true"] {
+  border-color: var(--ink);
+  background: var(--ink);
+  color: var(--on-dark);
+}
+
+.num {
+  color: inherit;
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  font-weight: 500;
+  letter-spacing: var(--tr-mono);
+  opacity: 0.55;
+}
+
+.tabLabel {
+  flex: 1;
+}
+
+.tab::after {
+  content: "";
+  flex: none;
+  width: 0.5rem;
+  height: 0.5rem;
+  border-top: 2px solid currentColor;
+  border-right: 2px solid currentColor;
+  transform: rotate(45deg);
+  opacity: 0.6;
+  transition: transform 250ms var(--ease-out);
+}
+
+.tab[aria-selected="true"]::after {
+  opacity: 1;
+  transform: translateX(3px) rotate(45deg);
+}
+
+.panel:focus-visible {
+  outline-offset: 6px;
+}
+
+/* Pills: horizontal segmented control */
+.pills .list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-2);
+}
+
+.pills .tab {
+  width: auto;
+  min-height: 2.75rem;
+  padding: 0.5rem 1.125rem;
+  border-radius: var(--r-pill);
+  font-size: 0.9375rem;
+}
+
+.pills .tab::after {
+  display: none;
+}
+
+/* Dark tone */
+.dark .tab {
+  border-color: var(--line-dark-strong);
+  background: transparent;
+  color: var(--on-dark);
+}
+
+.dark .tab:hover {
+  border-color: rgb(255 255 255 / 0.5);
+}
+
+.dark .tab[aria-selected="true"] {
+  border-color: var(--on-dark);
+  background: var(--on-dark);
+  color: var(--ink);
+}
+
+@media (min-width: 960px) {
+  .vertical {
+    grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
+    gap: var(--s-7);
+    align-items: start;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .panel:not([hidden]) {
+    animation: panel-in 450ms var(--ease-out) both;
+  }
+}
+
+@keyframes panel-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+}
