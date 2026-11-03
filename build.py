@@ -30,6 +30,7 @@ ROOT = Path(__file__).resolve().parent
 SRC = ROOT / "src"
 DIST = ROOT / "dist"
 CONFIG_FILE = ROOT / "site.config.json"
+VERCEL_FILE = ROOT / "vercel.json"
 PHOTOS = SRC / "assets" / "photos"
 
 PLACEHOLDER = re.compile(r"\[\[(.+?)\]\]", re.DOTALL)
@@ -108,6 +109,12 @@ SECTORS = [
             "structural calculations, drawings or an idea of cost before you appoint a builder."
         ),
         "services": ["structural-design", "autocad-plans", "quantity-surveying"],
+        "detail": (
+            "Most home projects that change the structure need calculations for Building Regulations "
+            "approval, even when planning permission is not required. We design the beams, foundations "
+            "and other structural elements, produce the drawings your builder needs, and can estimate the "
+            "likely cost before you ask builders to quote."
+        ),
     },
     {
         "key": "developers",
@@ -118,6 +125,12 @@ SECTORS = [
             "conversions, drawing packages and take-offs for tendering on small and medium-sized schemes."
         ),
         "services": ["quantity-surveying", "structural-design", "autocad-plans"],
+        "detail": (
+            "Early cost and structural advice helps you decide whether a scheme works before committing "
+            "to detailed design. We provide feasibility estimates, structural design for new-build houses "
+            "and conversions, and drawing packages and quantities for tendering, scaled to the size of "
+            "the project."
+        ),
     },
     {
         "key": "consultancies",
@@ -128,6 +141,11 @@ SECTORS = [
             "quantity surveying, on a subcontract basis and to your standards."
         ),
         "services": ["autocad-plans", "structural-design", "quantity-surveying"],
+        "detail": (
+            "When your own team is at capacity, we provide AutoCAD drafting, structural design support "
+            "and quantity surveying on a subcontract basis. We work to your drawing standards and "
+            "deadlines, and you deal directly with the engineer doing the work."
+        ),
     },
 ]
 
@@ -319,6 +337,15 @@ def build_assets() -> dict:
     return urls
 
 
+def inline_svg(name: str, css_class: str, label: str) -> Markup:
+    """Inline an SVG from src/assets/img so its parts can be styled and animated."""
+    svg = (SRC / "assets" / "img" / name).read_text(encoding="utf-8")
+    svg = re.sub(r"<title>.*?</title>\s*|<desc>.*?</desc>\s*", "", svg, flags=re.S)
+    label = label.replace('"', "&quot;")
+    svg = svg.replace("<svg ", f'<svg class="{css_class}" role="img" aria-label="{label}" ', 1)
+    return Markup(svg)
+
+
 def available_photo(config: dict, slot: str) -> dict | None:
     """A configured photo is used only if its file is actually present."""
     photo = config["photos"].get(slot)
@@ -353,6 +380,49 @@ def content_security_policy(config: dict) -> str:
         "object-src 'none'",
         "frame-ancestors 'none'",
     ])
+
+
+def vercel_config(config: dict) -> dict:
+    """Deployment config for Vercel, which does not read the _headers file.
+
+    Security headers must therefore be declared here. The Content-Security-Policy
+    depends on site.config.json, so build.py is the single source of truth and
+    checks this file still matches (see check_vercel_config).
+    """
+    security = [
+        {"key": "Content-Security-Policy", "value": content_security_policy(config)},
+        {"key": "Referrer-Policy", "value": "strict-origin-when-cross-origin"},
+        {"key": "X-Content-Type-Options", "value": "nosniff"},
+        {"key": "X-Frame-Options", "value": "DENY"},
+        {"key": "Permissions-Policy", "value": "camera=(), microphone=(), geolocation=(), payment=()"},
+        {"key": "Strict-Transport-Security", "value": "max-age=31536000; includeSubDomains"},
+    ]
+    immutable = [{"key": "Cache-Control", "value": "public, max-age=31536000, immutable"}]
+    return {
+        "$schema": "https://openapi.vercel.sh/vercel.json",
+        "installCommand": "python3 -m pip install --disable-pip-version-check -r requirements.txt",
+        "buildCommand": "python3 build.py",
+        "outputDirectory": "dist",
+        "trailingSlash": True,
+        "headers": [
+            {"source": "/(.*)", "headers": security},
+            {"source": "/assets/css/(.*)", "headers": immutable},
+            {"source": "/assets/js/(.*)", "headers": immutable},
+            {"source": "/assets/fonts/(.*)", "headers": immutable},
+        ],
+    }
+
+
+def check_vercel_config(config: dict) -> list[str]:
+    """Report any drift between vercel.json and the settings in site.config.json."""
+    expected = vercel_config(config)
+    try:
+        actual = json.loads(VERCEL_FILE.read_text(encoding="utf-8"))
+    except FileNotFoundError:
+        return ["vercel.json is missing. Run: python build.py --sync-config"]
+    if actual != expected:
+        return ["vercel.json is out of date with site.config.json. Run: python build.py --sync-config"]
+    return []
 
 
 def structured_data(config: dict) -> Markup:
@@ -411,6 +481,7 @@ def make_env(config: dict, assets: dict, production: bool) -> Environment:
         sectors=SECTORS,
         assets=assets,
         hero_photo=available_photo(config, "hero"),
+        inline_svg=inline_svg,
         tel_url=f"tel:{contact['phone_link']}",
         whatsapp_url=f"https://wa.me/{contact['whatsapp']}",
         map_url="https://www.google.com/maps/search/?api=1&query=" + quote_plus(company["registered_office"]),
@@ -511,6 +582,13 @@ def config_problems(config: dict) -> list[str]:
     return problems
 
 
+def sync_vercel_config() -> int:
+    config = json.loads(CONFIG_FILE.read_text(encoding="utf-8"))
+    VERCEL_FILE.write_text(json.dumps(vercel_config(config), indent=2) + "\n", encoding="utf-8")
+    print(f"Wrote {VERCEL_FILE.name} from site.config.json")
+    return 0
+
+
 def build(production: bool) -> int:
     config = json.loads(CONFIG_FILE.read_text(encoding="utf-8"))
     if DIST.exists():
@@ -521,6 +599,8 @@ def build(production: bool) -> int:
     env = make_env(config, assets, production)
 
     problems: dict[str, list[str]] = {}
+    for problem in check_vercel_config(config):
+        problems[problem] = ["vercel.json"]
     if production:
         for problem in config_problems(config):
             problems[problem] = ["site.config.json"]
@@ -557,7 +637,9 @@ def main() -> int:
         stream.reconfigure(encoding="utf-8")
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("--production", action="store_true", help="fail on unconfirmed facts; allow indexing")
-    return build(parser.parse_args().production)
+    parser.add_argument("--sync-config", action="store_true", help="rewrite vercel.json from site.config.json")
+    args = parser.parse_args()
+    return sync_vercel_config() if args.sync_config else build(args.production)
 
 
 if __name__ == "__main__":

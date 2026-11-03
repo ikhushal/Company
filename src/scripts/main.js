@@ -188,5 +188,169 @@ function enhanceForm(form) {
   });
 }
 
+const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+function initHeaderShadow() {
+  const header = document.querySelector('.site-header');
+  if (!header) return;
+  let ticking = false;
+  const update = () => {
+    header.classList.toggle('is-scrolled', window.scrollY > 8);
+    ticking = false;
+  };
+  window.addEventListener('scroll', () => {
+    if (!ticking) {
+      ticking = true;
+      window.requestAnimationFrame(update);
+    }
+  }, { passive: true });
+  update();
+}
+
+// Fades sections in as they scroll into view. Anything already on screen at
+// load is left alone, so nothing visible ever disappears and fades back in.
+const REVEAL_TARGETS = [
+  '.section-header', '.card', '.credentials > li', '.features > li', '.steps > li',
+  '.faq', '.sheet', '.project-card', '.contact-option', '.table-wrap', '.definitions > div',
+  '.switcher', '.cta-band__inner', '.empty-state', '.quantities', '.note', '.panel',
+].join(', ');
+
+function initReveal() {
+  if (prefersReducedMotion) return;
+
+  let pending = Array.from(document.querySelectorAll(REVEAL_TARGETS)).filter(
+    (el) => !el.closest('.hero') && el.getBoundingClientRect().top > window.innerHeight,
+  );
+  if (!pending.length) return;
+
+  pending.forEach((el) => {
+    // Stagger siblings, such as cards in a row, by up to 320ms.
+    const siblings = Array.from(el.parentElement.children).filter((child) => pending.includes(child));
+    el.style.setProperty('--reveal-delay', `${Math.min(siblings.indexOf(el), 4) * 80}ms`);
+    el.setAttribute('data-reveal', '');
+  });
+
+  const show = (el) => el.classList.add('is-visible');
+  let lastCheck = 0;
+  let trailing = null;
+  const check = () => {
+    lastCheck = Date.now();
+    const trigger = window.innerHeight * 0.92;
+    pending = pending.filter((el) => {
+      if (el.getBoundingClientRect().top < trigger) {
+        show(el);
+        return false;
+      }
+      return true;
+    });
+    if (!pending.length) {
+      window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('resize', onScroll);
+    }
+  };
+  // At most one check per 100ms while scrolling, plus one after scrolling stops.
+  const onScroll = () => {
+    window.clearTimeout(trailing);
+    if (Date.now() - lastCheck > 100) check();
+    trailing = window.setTimeout(check, 120);
+  };
+
+  document.documentElement.classList.add('reveal-ready');
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', onScroll, { passive: true });
+  // Covers a scroll position restored by the browser before any scroll event.
+  window.addEventListener('load', check);
+}
+
+// Accessible tabs (WAI-ARIA tabs pattern). Without JavaScript every panel is shown.
+function initTabs(root) {
+  const tablist = root.querySelector('[data-tablist]');
+  const tabs = Array.from(root.querySelectorAll('[data-tab]'));
+  const panels = Array.from(root.querySelectorAll('[data-panel]'));
+  if (!tablist || !tabs.length) return;
+
+  tablist.setAttribute('role', 'tablist');
+  tablist.hidden = false;
+  root.classList.add('is-enhanced');
+
+  const select = (tab, focus) => {
+    tabs.forEach((other) => {
+      const selected = other === tab;
+      other.setAttribute('aria-selected', String(selected));
+      other.tabIndex = selected ? 0 : -1;
+      const panel = document.getElementById(other.dataset.tab);
+      panel.hidden = !selected;
+      if (selected && !prefersReducedMotion) {
+        panel.classList.remove('is-entering');
+        void panel.offsetWidth; // restart the entrance animation
+        panel.classList.add('is-entering');
+      }
+    });
+    if (focus) tab.focus();
+  };
+
+  tabs.forEach((tab) => {
+    tab.setAttribute('role', 'tab');
+    tab.setAttribute('aria-controls', tab.dataset.tab);
+    tab.addEventListener('click', () => select(tab, false));
+    tab.addEventListener('keydown', (event) => {
+      const index = tabs.indexOf(tab);
+      const moves = { ArrowDown: 1, ArrowRight: 1, ArrowUp: -1, ArrowLeft: -1 };
+      let next = null;
+      if (event.key in moves) next = tabs[(index + moves[event.key] + tabs.length) % tabs.length];
+      if (event.key === 'Home') next = tabs[0];
+      if (event.key === 'End') next = tabs[tabs.length - 1];
+      if (next) {
+        event.preventDefault();
+        select(next, true);
+      }
+    });
+  });
+
+  panels.forEach((panel) => {
+    panel.setAttribute('role', 'tabpanel');
+    panel.setAttribute('aria-labelledby', tabs.find((tab) => tab.dataset.tab === panel.id).id);
+    panel.tabIndex = 0;
+  });
+
+  select(tabs[0], false);
+}
+
+function formatSize(bytes) {
+  return bytes < 1024 * 1024 ? `${Math.max(1, Math.round(bytes / 1024))} KB` : `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
+}
+
+// Lists chosen files with sizes and a running total against the upload limit.
+function initFileLists() {
+  document.querySelectorAll('input[type="file"]').forEach((input) => {
+    const list = input.parentElement.querySelector('[data-file-list]');
+    if (!list) return;
+    input.addEventListener('change', () => {
+      list.replaceChildren();
+      const files = Array.from(input.files || []);
+      if (!files.length) return;
+      files.forEach((file) => {
+        const item = document.createElement('li');
+        const size = document.createElement('span');
+        size.className = 'file-list__size';
+        size.textContent = formatSize(file.size);
+        item.append(file.name, size);
+        list.append(item);
+      });
+      const total = document.createElement('li');
+      total.className = 'file-list__total';
+      const totalSize = document.createElement('span');
+      totalSize.className = 'file-list__size';
+      totalSize.textContent = `${formatSize(files.reduce((sum, file) => sum + file.size, 0))} of ${input.dataset.maxMb} MB`;
+      total.append(`${files.length} file${files.length === 1 ? '' : 's'} selected`, totalSize);
+      list.append(total);
+    });
+  });
+}
+
 initNavigation();
+initHeaderShadow();
 document.querySelectorAll('[data-enquiry-form]').forEach(enhanceForm);
+document.querySelectorAll('[data-tabs]').forEach(initTabs);
+initFileLists();
+initReveal();

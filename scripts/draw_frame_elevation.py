@@ -1,6 +1,9 @@
 #!/usr/bin/env python3
 """Generate the illustrative structural frame elevation used on the site.
 
+Parts are grouped (f-grid, f-cols, f-beams, f-brace, ...) so the site CSS can
+animate the frame being "built" when the drawing is inlined in the hero.
+
     python scripts/draw_frame_elevation.py
 
 Writes two SVGs into src/assets/img/: a light-on-dark version for the hero
@@ -53,6 +56,7 @@ def drawing(theme):
         parts.append(f'<rect width="{W}" height="{H}" fill="{t["bg"]}"/>')
 
     # Gridlines and bubbles
+    parts.append('<g class="f-grid">')
     for i, name in enumerate(GRID):
         parts.append(
             f'<line x1="{x(i)}" y1="{top + 14}" x2="{x(i)}" y2="{GROUND + 60}" stroke="{t["muted"]}" '
@@ -64,7 +68,10 @@ def drawing(theme):
             f'fill="{t["strong_text"]}">{name}</text>'
         )
 
+    parts.append("</g>")
+
     # Bay dimensions
+    parts.append('<g class="f-dims">')
     dim_y = top + 42
     parts.append(f'<line x1="{x(0) - 8}" y1="{dim_y}" x2="{x(len(GRID) - 1) + 8}" y2="{dim_y}" stroke="{t["muted"]}" stroke-width="0.75"/>')
     for i in range(len(GRID)):
@@ -75,26 +82,38 @@ def drawing(theme):
             f'fill="{t["text"]}">{int(BAY * 1000)}</text>'
         )
 
+    parts.append("</g>")
+
     # Bracing in bay B–C, every storey
+    parts.append('<g class="f-brace">')
     for (_, lo), (_, hi) in zip(LEVELS, LEVELS[1:]):
         for a, b in (((x(1), y(lo)), (x(2), y(hi))), ((x(1), y(hi)), (x(2), y(lo)))):
             parts.append(
                 f'<line x1="{a[0]}" y1="{a[1]}" x2="{b[0]}" y2="{b[1]}" stroke="{t["line"]}" '
-                f'stroke-width="1.25" stroke-opacity="0.7"/>'
+                f'stroke-width="1.25" stroke-opacity="0.7" pathLength="1"/>'
             )
 
+    parts.append("</g>")
+
     # Beams at each suspended level and roof
+    parts.append('<g class="f-beams">')
     for _, level in LEVELS[1:]:
         parts.append(
             f'<rect x="{x(0) - 4}" y="{y(level) - 3}" width="{x(len(GRID) - 1) - x(0) + 8}" height="6" '
             f'fill="{t["line"]}"/>'
         )
 
+    parts.append("</g>")
+
     # Columns
+    parts.append('<g class="f-cols">')
     for i in range(len(GRID)):
         parts.append(f'<rect x="{x(i) - 4}" y="{roof - 3}" width="8" height="{GROUND - roof + 3}" fill="{t["line"]}"/>')
 
+    parts.append("</g>")
+
     # Ground line, hatch and pad foundations
+    parts.append('<g class="f-ground">')
     parts.append(f'<line x1="{x(0) - 70}" y1="{GROUND}" x2="{x(len(GRID) - 1) + 70}" y2="{GROUND}" stroke="{t["line"]}" stroke-width="1.5"/>')
     for hx in range(int(x(0) - 70), int(x(len(GRID) - 1) + 70), 12):
         parts.append(f'<line x1="{hx}" y1="{GROUND}" x2="{hx - 8}" y2="{GROUND + 8}" stroke="{t["muted"]}" stroke-width="0.75"/>')
@@ -105,7 +124,10 @@ def drawing(theme):
         )
         parts.append(f'<line x1="{x(i)}" y1="{GROUND}" x2="{x(i)}" y2="{GROUND + 18}" stroke="{t["line"]}" stroke-width="1.25" stroke-dasharray="5 3"/>')
 
+    parts.append("</g>")
+
     # Level datums on the right
+    parts.append('<g class="f-levels">')
     lx = x(len(GRID) - 1) + 40
     for name, level in LEVELS:
         ly = y(level)
@@ -114,7 +136,10 @@ def drawing(theme):
         parts.append(f'<text x="{lx + 14}" y="{ly - 5}" font-size="12" font-weight="600" fill="{t["strong_text"]}">+{level:.3f}</text>')
         parts.append(f'<text x="{lx + 14}" y="{ly + 14}" font-size="11" fill="{t["text"]}">{name}</text>')
 
+    parts.append("</g>")
+
     # Storey heights on the left
+    parts.append('<g class="f-storeys">')
     sx = x(0) - 50
     parts.append(f'<line x1="{sx}" y1="{GROUND + 6}" x2="{sx}" y2="{roof - 6}" stroke="{t["muted"]}" stroke-width="0.75"/>')
     for _, level in LEVELS:
@@ -126,7 +151,10 @@ def drawing(theme):
             f'transform="rotate(-90 {sx - 8} {my})">{int(STOREY * 1000)}</text>'
         )
 
+    parts.append("</g>")
+
     # Label
+    parts.append('<g class="f-label">')
     parts.append(
         f'<text x="{x(0) - 70}" y="{H - 28}" font-size="12" font-weight="600" fill="{t["strong_text"]}">'
         "Frame elevation on gridline 1</text>"
@@ -135,6 +163,7 @@ def drawing(theme):
         f'<text x="{x(0) - 70}" y="{H - 12}" font-size="11" fill="{t["text"]}">'
         "Illustrative sample · Not a client project · Dimensions in mm, levels in m</text>"
     )
+    parts.append("</g>")
     parts.append("</svg>")
     return "\n".join(parts) + "\n"
 

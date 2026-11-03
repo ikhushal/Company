@@ -21,7 +21,9 @@
       <p class="hero__note">Led by a {{ founder.membership }}</p>
     </div>
     {% if not hero_photo %}
-    {{ m.frame_figure("dark") }}
+    <figure class="hero__drawing">
+      {{ inline_svg("frame-elevation-dark.svg", "frame-drawing", "Illustrative drawing: elevation of a three-storey steel frame on gridlines A to E, with 5,000 mm bays, 3,300 mm storey heights, cross-bracing in one bay and pad foundations.") }}
+    </figure>
     {% endif %}
   </div>
   {% if hero_photo and hero_photo.credit %}
@@ -58,16 +60,33 @@
   <div class="container">
     <div class="section-header">
       <h2 id="sectors-title">Who we work with</h2>
-      <p>Small and medium-sized projects, for clients who need dependable design information before work starts on site.</p>
+      <p>Small and medium-sized projects, for clients who need dependable design information before work starts on site. Choose the option that describes you.</p>
     </div>
-    <div class="grid grid--3">
-      {% for sector in sectors %}
-      <article class="card">
-        <h3>{{ sector.name }}</h3>
-        <p>{{ sector.summary }}</p>
-        <a class="card__link" href="/sectors/#{{ sector.key }}">Working with {{ sector.short }}</a>
-      </article>
-      {% endfor %}
+    {% set tab_labels = {"homeowners": "Homeowner", "developers": "Developer or house builder", "consultancies": "Engineering firm"} %}
+    <div class="switcher" data-tabs>
+      <div class="switcher__tabs" data-tablist aria-label="Who are you?" hidden>
+        {% for sector in sectors %}
+        <button class="switcher__tab" type="button" id="tab-{{ sector.key }}" data-tab="panel-{{ sector.key }}">{{ tab_labels[sector.key] }}</button>
+        {% endfor %}
+      </div>
+      <div class="switcher__panels">
+        {% for sector in sectors %}
+        <article class="switcher__panel" id="panel-{{ sector.key }}" data-panel>
+          <h3>{{ sector.name }}</h3>
+          <p class="lead">{{ sector.summary }}</p>
+          <p>{{ sector.detail }}</p>
+          <ul class="tags" aria-label="Relevant services">
+            {% for key in sector.services %}
+            <li><a href="{{ services_by_key[key].path }}">{{ services_by_key[key].name }}</a></li>
+            {% endfor %}
+          </ul>
+          <div class="button-group">
+            <a class="button button--primary" href="/request-a-quote/">Request a quote</a>
+            <a class="link-arrow" href="/sectors/#{{ sector.key }}">Working with {{ sector.short }}</a>
+          </div>
+        </article>
+        {% endfor %}
+      </div>
     </div>
   </div>
 </section>

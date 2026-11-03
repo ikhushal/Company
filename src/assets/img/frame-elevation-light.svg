@@ -2,6 +2,7 @@
 <title>Illustrative sample: structural frame elevation</title>
 <desc>Generic four-bay, three-storey braced steel frame elevation with gridlines A to E, 5000 mm bays, 3300 mm storeys and pad foundations. Not a client project.</desc>
 <rect width="1000" height="640" fill="#FFFFFF"/>
+<g class="f-grid">
 <line x1="130.0" y1="74" x2="130.0" y2="600" stroke="#868C92" stroke-width="0.75" stroke-dasharray="14 4 2 4"/>
 <circle cx="130.0" cy="60" r="14" fill="none" stroke="#868C92" stroke-width="1"/>
 <text x="130.0" y="65" text-anchor="middle" font-size="14" font-weight="600" fill="#111417">A</text>
@@ -17,6 +18,8 @@
 <line x1="850.0" y1="74" x2="850.0" y2="600" stroke="#868C92" stroke-width="0.75" stroke-dasharray="14 4 2 4"/>
 <circle cx="850.0" cy="60" r="14" fill="none" stroke="#868C92" stroke-width="1"/>
 <text x="850.0" y="65" text-anchor="middle" font-size="14" font-weight="600" fill="#111417">E</text>
+</g>
+<g class="f-dims">
 <line x1="122.0" y1="102" x2="858.0" y2="102" stroke="#868C92" stroke-width="0.75"/>
 <line x1="126.0" y1="106" x2="134.0" y2="98" stroke="#5E656C" stroke-width="1.25"/>
 <line x1="306.0" y1="106" x2="314.0" y2="98" stroke="#5E656C" stroke-width="1.25"/>
@@ -27,20 +30,28 @@
 <text x="400.0" y="96" text-anchor="middle" font-size="12" fill="#5E656C">5000</text>
 <text x="580.0" y="96" text-anchor="middle" font-size="12" fill="#5E656C">5000</text>
 <text x="760.0" y="96" text-anchor="middle" font-size="12" fill="#5E656C">5000</text>
-<line x1="310.0" y1="540.0" x2="490.0" y2="421.2" stroke="#111417" stroke-width="1.25" stroke-opacity="0.7"/>
-<line x1="310.0" y1="421.2" x2="490.0" y2="540.0" stroke="#111417" stroke-width="1.25" stroke-opacity="0.7"/>
-<line x1="310.0" y1="421.2" x2="490.0" y2="302.4" stroke="#111417" stroke-width="1.25" stroke-opacity="0.7"/>
-<line x1="310.0" y1="302.4" x2="490.0" y2="421.2" stroke="#111417" stroke-width="1.25" stroke-opacity="0.7"/>
-<line x1="310.0" y1="302.4" x2="490.0" y2="183.59999999999997" stroke="#111417" stroke-width="1.25" stroke-opacity="0.7"/>
-<line x1="310.0" y1="183.59999999999997" x2="490.0" y2="302.4" stroke="#111417" stroke-width="1.25" stroke-opacity="0.7"/>
+</g>
+<g class="f-brace">
+<line x1="310.0" y1="540.0" x2="490.0" y2="421.2" stroke="#111417" stroke-width="1.25" stroke-opacity="0.7" pathLength="1"/>
+<line x1="310.0" y1="421.2" x2="490.0" y2="540.0" stroke="#111417" stroke-width="1.25" stroke-opacity="0.7" pathLength="1"/>
+<line x1="310.0" y1="421.2" x2="490.0" y2="302.4" stroke="#111417" stroke-width="1.25" stroke-opacity="0.7" pathLength="1"/>
+<line x1="310.0" y1="302.4" x2="490.0" y2="421.2" stroke="#111417" stroke-width="1.25" stroke-opacity="0.7" pathLength="1"/>
+<line x1="310.0" y1="302.4" x2="490.0" y2="183.59999999999997" stroke="#111417" stroke-width="1.25" stroke-opacity="0.7" pathLength="1"/>
+<line x1="310.0" y1="183.59999999999997" x2="490.0" y2="302.4" stroke="#111417" stroke-width="1.25" stroke-opacity="0.7" pathLength="1"/>
+</g>
+<g class="f-beams">
 <rect x="126.0" y="418.2" width="728.0" height="6" fill="#111417"/>
 <rect x="126.0" y="299.4" width="728.0" height="6" fill="#111417"/>
 <rect x="126.0" y="180.59999999999997" width="728.0" height="6" fill="#111417"/>
+</g>
+<g class="f-cols">
 <rect x="126.0" y="180.59999999999997" width="8" height="359.40000000000003" fill="#111417"/>
 <rect x="306.0" y="180.59999999999997" width="8" height="359.40000000000003" fill="#111417"/>
 <rect x="486.0" y="180.59999999999997" width="8" height="359.40000000000003" fill="#111417"/>
 <rect x="666.0" y="180.59999999999997" width="8" height="359.40000000000003" fill="#111417"/>
 <rect x="846.0" y="180.59999999999997" width="8" height="359.40000000000003" fill="#111417"/>
+</g>
+<g class="f-ground">
 <line x1="60.0" y1="540" x2="920.0" y2="540" stroke="#111417" stroke-width="1.5"/>
 <line x1="60" y1="540" x2="52" y2="548" stroke="#868C92" stroke-width="0.75"/>
 <line x1="72" y1="540" x2="64" y2="548" stroke="#868C92" stroke-width="0.75"/>
@@ -124,6 +135,8 @@
 <line x1="670.0" y1="540" x2="670.0" y2="558" stroke="#111417" stroke-width="1.25" stroke-dasharray="5 3"/>
 <rect x="823.0" y="558" width="54" height="24" fill="none" stroke="#111417" stroke-width="1.25" stroke-dasharray="5 3"/>
 <line x1="850.0" y1="540" x2="850.0" y2="558" stroke="#111417" stroke-width="1.25" stroke-dasharray="5 3"/>
+</g>
+<g class="f-levels">
 <line x1="862.0" y1="540.0" x2="998.0" y2="540.0" stroke="#868C92" stroke-width="0.75"/>
 <path d="M890.0 540.0 l-7 -10 h14 z" fill="none" stroke="#111417" stroke-width="1"/>
 <text x="904.0" y="535.0" font-size="12" font-weight="600" fill="#111417">+0.000</text>
@@ -140,6 +153,8 @@
 <path d="M890.0 183.59999999999997 l-7 -10 h14 z" fill="none" stroke="#111417" stroke-width="1"/>
 <text x="904.0" y="178.59999999999997" font-size="12" font-weight="600" fill="#111417">+9.900</text>
 <text x="904.0" y="197.59999999999997" font-size="11" fill="#5E656C">Roof</text>
+</g>
+<g class="f-storeys">
 <line x1="80.0" y1="546" x2="80.0" y2="177.59999999999997" stroke="#868C92" stroke-width="0.75"/>
 <line x1="76.0" y1="544.0" x2="84.0" y2="536.0" stroke="#5E656C" stroke-width="1.25"/>
 <line x1="76.0" y1="425.2" x2="84.0" y2="417.2" stroke="#5E656C" stroke-width="1.25"/>
@@ -148,6 +163,9 @@
 <text x="72.0" y="480.6" text-anchor="middle" font-size="12" fill="#5E656C" transform="rotate(-90 72.0 480.6)">3300</text>
 <text x="72.0" y="361.79999999999995" text-anchor="middle" font-size="12" fill="#5E656C" transform="rotate(-90 72.0 361.79999999999995)">3300</text>
 <text x="72.0" y="242.99999999999997" text-anchor="middle" font-size="12" fill="#5E656C" transform="rotate(-90 72.0 242.99999999999997)">3300</text>
+</g>
+<g class="f-label">
 <text x="60.0" y="612" font-size="12" font-weight="600" fill="#111417">Frame elevation on gridline 1</text>
 <text x="60.0" y="628" font-size="11" fill="#5E656C">Illustrative sample · Not a client project · Dimensions in mm, levels in m</text>
+</g>
 </svg>

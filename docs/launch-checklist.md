@@ -2,6 +2,13 @@
 
 Status on 28 October 2026: the site is built and runs as a preview. `python build.py --production` lists the items in section 1 and will not build until they are resolved.
 
+## 0. Hosting
+
+- [x] Repository configured for Vercel (`vercel.json`: install, build, output and security headers).
+- [ ] Import `ikhushal/Company` at [vercel.com/new](https://vercel.com/new). Each push to `main` then redeploys automatically.
+
+Until section 1 is complete, Vercel builds the **preview** version: it carries `noindex` and `Disallow: /`, so search engines will not list it, and it shows the yellow "To confirm" markers. That makes the `.vercel.app` address a review link to share with the client, not the launched site. To publish the real site, resolve section 1, then change the build command in Vercel to `python3 build.py --production`.
+
 ## 1. Blocks the production build
 
 - [ ] **Domain:** buy `whitestonecivilengineering.co.uk`, connect it to the host, then set `site.domain_confirmed` to `true`.

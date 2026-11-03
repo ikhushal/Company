@@ -22,6 +22,7 @@ The site is generated from Jinja templates by a small Python script and outputs 
 | `python check.py` | Checks the built pages: one `h1`, heading order, broken links and anchors, image `alt`/dimensions, empty links, title and description length, straight quotes, double spaces, American spellings and company-name spelling. |
 | `python scripts/draw_frame_elevation.py` | Regenerates the illustrative structural frame drawings in `src/assets/img/`. |
 | `python -m http.server 8000 --directory dist` | Serves the build locally at http://localhost:8000. |
+| `python build.py --sync-config` | Rewrites `vercel.json` from `site.config.json`. Run after changing form endpoints or analytics. |
 
 Run `build.py` then `check.py` before every deployment.
 
@@ -31,6 +32,7 @@ Run `build.py` then `check.py` before every deployment.
 build.py                 Pages, navigation, services and sectors data, and the build
 check.py                 Quality checks on dist/
 site.config.json         Business facts and settings (see below)
+vercel.json              Deployment settings and security headers (generated; do not edit by hand)
 scripts/                 Asset generators
 src/
   templates/
@@ -43,7 +45,8 @@ src/
     02-base.css          Element defaults
     03-layout.css        Container, sections, grids
     04-components.css    Components
-  scripts/main.js        Mobile menu and forms (progressive enhancement)
+    05-motion.css        Animation and interaction (all switched off for reduced-motion users)
+  scripts/main.js        Menu, forms, sector tabs, file list, scroll reveal (progressive enhancement)
   assets/                Font (Inter, OFL licence), drawings, favicon, photos/
 docs/                    Reconciliation, launch checklist, foundation standards
 dist/                    Build output (not edited by hand)
@@ -90,10 +93,29 @@ The success, validation, upload and failure behaviour has been tested in a brows
 
 ## Deployment
 
-`dist/` is the complete site. `dist/_headers` sets a Content Security Policy and other security headers, in the format used by Netlify and Cloudflare Pages. Other hosts need equivalent configuration. `dist/404.html` is the not-found page.
+`dist/` is the complete site and can be hosted anywhere static.
+
+### Vercel (current setup)
+
+`vercel.json` tells Vercel how to build the site:
+
+- **Install:** `python3 -m pip install --disable-pip-version-check -r requirements.txt`
+- **Build:** `python3 build.py`
+- **Output:** `dist/`
+
+To connect the repository, go to [vercel.com/new](https://vercel.com/new), import `ikhushal/Company`, leave every setting as detected and deploy. Vercel rebuilds automatically on each push to `main`.
+
+**`vercel.json` is generated, not hand-written.** Its Content-Security-Policy is derived from `site.config.json`, so a form or analytics provider added there must also be allowed by the policy. `build.py` fails if the two drift apart; `python build.py --sync-config` fixes it, and the result should be committed.
+
+Vercel does not read `dist/_headers` (that file is for Netlify and Cloudflare Pages), so the same headers are declared in `vercel.json`.
+
+If a Vercel build fails because Python or pip is missing, set the Python version in Project Settings → General.
+
+### Other hosts
+
+`dist/_headers` carries the security headers in Netlify and Cloudflare Pages format. Other hosts need equivalent configuration. `dist/404.html` is the not-found page.
 
 The hosting account, domain and DNS should be owned by the company.
-
 ## Editing content
 
 - **Page text:** `src/templates/pages/`.

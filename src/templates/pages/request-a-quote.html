@@ -95,6 +95,7 @@
                  aria-describedby="quote-files-hint" data-max-mb="{{ forms.max_upload_mb }}"
                  data-error-size="The files are larger than {{ forms.max_upload_mb }} MB in total. Remove some, or send them once we reply"
                  data-error-type="Attach PDF, DWG, DXF, JPG or PNG files only">
+          <ul class="file-list" data-file-list aria-live="polite"></ul>
         </div>
 
         {{ m.marketing_consent() }}
